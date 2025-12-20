@@ -3,6 +3,8 @@ const express = require('express'); // function return krega
 
 const ServerConfig = require('./config/serverConfig');
 const connectDB = require('./config/dbConfig');
+const userRouter = require('./routes/userRoute');
+const cartRouter = require('./routes/cartRoute');
 // const User = require('./schema/userSchema');
 
 const app = express(); // function ne object return kra jise hum configure kr skte hain
@@ -10,9 +12,11 @@ const app = express(); // function ne object return kra jise hum configure kr sk
 app.use(express.json());
 app.use(express.text());
 // app.use(bodyParser.urlencoded());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended : true }));
 
-
+//Routing middleware
+app.use('/users',userRouter); // connects router to server
+app.use('/carts',cartRouter); 
 
 app.listen(ServerConfig.PORT,async ()=>{
     await connectDB();
