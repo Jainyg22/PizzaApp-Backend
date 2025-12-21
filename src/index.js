@@ -34,6 +34,5 @@ app.listen(ServerConfig.PORT,async ()=>{
     // console.log(newUser);
 })
 
-// jainc451_db_user
-// I3iBJkWngUpBrWad
+
 
