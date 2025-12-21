@@ -5,6 +5,7 @@ const ServerConfig = require('./config/serverConfig');
 const connectDB = require('./config/dbConfig');
 const userRouter = require('./routes/userRoute');
 const cartRouter = require('./routes/cartRoute');
+const authRouter = require('./routes/authRoute');
 // const User = require('./schema/userSchema');
 
 const app = express(); // function ne object return kra jise hum configure kr skte hain
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended : true }));
 //Routing middleware
 app.use('/users',userRouter); // connects router to server
 app.use('/carts',cartRouter); 
+app.use('/auth',authRouter);
 
 app.listen(ServerConfig.PORT,async ()=>{
     await connectDB();
