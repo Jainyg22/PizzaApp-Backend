@@ -8,6 +8,9 @@ const userRouter = require('./routes/userRoute');
 const cartRouter = require('./routes/cartRoute');
 const authRouter = require('./routes/authRoute');
 const { isLoggedIn } = require('./validation/authValidator');
+const uploader = require('./middlewares/multerMiddleware');
+const cloudinary = require('./config/cloudinaryConfig');
+const fs = require('fs/promises');
 // const User = require('./schema/userSchema');
 
 const app = express(); // function ne object return kra jise hum configure kr skte hain
@@ -28,6 +31,14 @@ app.get('/ping',isLoggedIn,(req,res)=>{
     console.log(req.body);
     console.log(req.cookies);
     return res.json({message : 'OK'});
+});
+
+app.post('/photo', uploader.single('incomingFile'),async (req,res)=>{
+    console.log(req.file);
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log("Result form cloudinary",result);
+    await fs.unlink(req.file.path);
+    return res.json({ message : 'OK'})
 })
 
 app.listen(ServerConfig.PORT,async ()=>{
