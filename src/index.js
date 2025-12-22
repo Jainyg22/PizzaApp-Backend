@@ -1,6 +1,5 @@
 const express = require('express'); // function return krega
 const cookieParser = require('cookie-parser');
-// const bodyParser = require('body-parser'); // express hi provide kr deta hai
 
 const ServerConfig = require('./config/serverConfig');
 const connectDB = require('./config/dbConfig');
@@ -11,20 +10,22 @@ const { isLoggedIn } = require('./validation/authValidator');
 const uploader = require('./middlewares/multerMiddleware');
 const cloudinary = require('./config/cloudinaryConfig');
 const fs = require('fs/promises');
-// const User = require('./schema/userSchema');
+const productRouter = require('./routes/productRouter');
+
 
 const app = express(); // function ne object return kra jise hum configure kr skte hain
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.text());
-// app.use(bodyParser.urlencoded());
+
 app.use(express.urlencoded({ extended : true }));
 
 //Routing middleware
 app.use('/users',userRouter); // connects router to server
 app.use('/carts',cartRouter); 
 app.use('/auth',authRouter);
+app.use('/products',productRouter);
 
 app.get('/ping',isLoggedIn,(req,res)=>{
     // controller
@@ -39,22 +40,12 @@ app.post('/photo', uploader.single('incomingFile'),async (req,res)=>{
     console.log("Result form cloudinary",result);
     await fs.unlink(req.file.path);
     return res.json({ message : 'OK'})
-})
+});
 
 app.listen(ServerConfig.PORT,async ()=>{
     await connectDB();
     console.log(`Server started at port ${ServerConfig.PORT}...!!`);
 
-    // const newUser=await User.create({
-    //     email:'a@b.com',
-    //     password:'123456',
-    //     firstName:'Jonahan',
-    //     lastName:'Majors',
-    //     mobileNumber:'1231231230'
-    // });
-
-    // console.log("Created new User");
-    // console.log(newUser);
 })
 
 
