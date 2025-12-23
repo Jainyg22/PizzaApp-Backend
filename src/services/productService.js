@@ -1,6 +1,32 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const ProductRepository = require('../repositories/productRepository');
 const fs = require('fs/promises');
+const InternalServerError = require('../utils/internalServerError');
+const NotFoundError = require('../utils/notFoundError');
+
+async function getProductById(productId){
+    const product=await ProductRepository.getProductById(productId);
+    if(!product){
+        // throw{ reason : `Not able to find the product` , statusCode : 404};
+        throw new NotFoundError('Product');
+    }
+    return product;
+}
+
+async function deleteProductById(productId){
+    // 1. Find if any product is present in db with this or not
+    const product = await ProductRepository.findProductById(productId);
+    if(!product){
+        throw{ reason : 'No product found with this id', statusCode : 404};
+    }
+    
+    const response=await ProductRepository.deleteProductById(productId);
+    if(!reesponse){
+        // throw{ reason : 'Not able to delete this product', statusCode : 500};
+        throw new NotFoundError('Product');
+    }
+    return response;
+}
 
 async function createProduct(productDetails){
     // It will add a new product in database
@@ -13,7 +39,8 @@ async function createProduct(productDetails){
             await fs.unlink(imagePath);
         }catch(error){
             console.log(error);
-            throw{ reason : 'Not able to create product', statusCode:500};
+            // throw{ reason : 'Not able to create product', statusCode:500};
+            throw new InternalServerError();
         }
     }
 
@@ -23,13 +50,15 @@ async function createProduct(productDetails){
         productImage : productImage 
     });
 
-    if(!product){
-        throw{ reason : 'Not able to create product', statusCode:500};
-    }
+    // if(!product){
+    //     throw{ reason : 'Not able to create product', statusCode:500};
+    // }
 
     return product;
 }
 
 module.exports = {
+    getProductById,
+    deleteProductById,
     createProduct
 }

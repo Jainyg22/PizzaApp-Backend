@@ -1,4 +1,46 @@
-const { createProduct } = require("../services/productService");
+const { createProduct, getProductById, deleteProductById } = require("../services/productService");
+
+async function findProduct(req,res){
+    try{
+        const productId=req.params.id;
+        const product = await getProductById(productId);
+        return res.status(200).json({
+            success: true,
+            data : product,
+            message : "Successfully found the product",
+            error : {}
+        });
+    }catch(error){
+        console.log(error);
+        return res.status(error.statusCode).json({
+            success : true,
+            data : {},
+            message : error.reason,
+            error : error
+        });
+    }
+}
+
+async function deleteProduct(req,res){
+    try{
+        const productId=req.params.id;
+        const product = await deleteProductById(productId);
+        return res.status(200).json({
+            success: true,
+            data : product,
+            message : "Successfully deleted the product",
+            error : {}
+        });
+    }catch(error){
+        console.log(error);
+        return res.status(error.statusCode).json({
+            success : true,
+            data : {},
+            message : error.reason,
+            error : error
+        });
+    }
+}
 
 async function addProduct(req,res){
     try{
@@ -28,5 +70,7 @@ async function addProduct(req,res){
 }
 
 module.exports ={
+    findProduct,
+    deleteProduct,
     addProduct
 }

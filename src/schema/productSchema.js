@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const productSchema=new mongoose.Schema({
     productName: {
         type : String,
-        // lowercase : true,
         trim : true,
         required : [true, "Product name is mandatory"],
         minlength : [5, "Product name is at least 5 characters long"]
@@ -14,9 +13,8 @@ const productSchema=new mongoose.Schema({
         lowercase : true,
         trim : true,
     },
-    image : {
+    productImage : {
         type : String,
-        // required : [true,"Image is mandatory"]
     },
     price:{
         type : Number,
