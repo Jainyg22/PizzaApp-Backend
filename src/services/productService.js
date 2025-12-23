@@ -36,6 +36,7 @@ async function createProduct(productDetails){
         try{
             const cloudinaryResponse = await cloudinary.uploader.upload(imagePath);
             var productImage = cloudinaryResponse.secure_url;
+            console.log(productImage);
             await fs.unlink(process.cwd() + "/" + imagePath); 
             /* Converts the path into a full absolute path 
             process.cwd() = root folder where Node.js started
@@ -56,6 +57,7 @@ async function createProduct(productDetails){
     // if(!product){
     //     throw{ reason : 'Not able to create product', statusCode:500};
     // }
+    console.log(product);
 
     return product;
 }
