@@ -11,7 +11,7 @@ const uploader = require('./middlewares/multerMiddleware');
 const cloudinary = require('./config/cloudinaryConfig');
 const fs = require('fs/promises');
 const productRouter = require('./routes/productRouter');
-
+const orderRouter = require('./routes/orderRoutes');
 
 const app = express(); // function ne object return kra jise hum configure kr skte hain
 
@@ -26,6 +26,7 @@ app.use('/users',userRouter); // connects router to server
 app.use('/carts',cartRouter); 
 app.use('/auth',authRouter);
 app.use('/products',productRouter);
+app.use('/orders', orderRouter);
 
 app.get('/ping',isLoggedIn,(req,res)=>{
     // controller
