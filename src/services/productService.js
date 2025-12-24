@@ -13,6 +13,14 @@ async function getProductById(productId){
     return product;
 }
 
+async function getAllProductsData() {
+    const response = await ProductRespository.getAllProducts();
+    if(!response) {
+        throw new NotFoundError('Product');
+    }
+    return response;
+}
+
 async function deleteProductById(productId){
     // 1. Find if any product is present in db with this or not
     const product = await ProductRepository.findProductById(productId);
@@ -65,5 +73,6 @@ async function createProduct(productDetails){
 module.exports = {
     getProductById,
     deleteProductById,
-    createProduct
+    createProduct,
+    getAllProductsData
 }
