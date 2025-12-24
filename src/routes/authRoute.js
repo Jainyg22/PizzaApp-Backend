@@ -1,6 +1,6 @@
 // Resource -> User
 const express = require('express');
-const { login } = require("../controllers/authController");
+const { login,logout } = require("../controllers/authController");
 
 
 //We have to initialise a router object to add routes in a new file
@@ -8,5 +8,6 @@ const { login } = require("../controllers/authController");
 const authRouter=express.Router();
 
 authRouter.post('/login',login); // this is a route registration
+authRouter.post('/logout', logout);
 
 module.exports = authRouter; 
