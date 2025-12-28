@@ -13,14 +13,14 @@ const orderRouter = require('./routes/orderRoute');
 const app = express(); // function ne object return kra jise hum configure kr skte hain
 
 app.use(cors({
-    // origin: 'http://localhost:5173', // allow to server to accept request from different origin
-    origin: ServerConfig.FRONTEND_URL, // allow to server to accept request from different origin
+    origin: 'http://localhost:5173', // allow to server to accept request from different origin
+    // origin: ['http://localhost:5173',,ServerConfig.FRONTEND_URL], // allow to server to accept request from different origin
     credentials: true, // allow session cookie from browser to pass through
 }));
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.text());    
+// app.use(express.text());    
 app.use(express.urlencoded({ extended : true }));
 
 //Routing middleware

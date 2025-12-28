@@ -10,17 +10,21 @@ async function registerUser(userDetails){
         email : userDetails.email,
         mobileNumber : userDetails.mobileNumber,
     });
+    console.log("user fetched");
     if(user){
         // we found a user
         throw { reason : 'User with the given mail and mobile Number already exist',statusCode : 400};
     }
     // 2. If not, then create a user in the database
+    // const role = req.user?.role === 'ADMIN' && req.body.role === 'ADMIN' ? 'ADMIN' : 'USER';
+    console.log("creating new user");
     const newUser=await createUser({
         email : userDetails.email,
         password : userDetails.password,
         firstName : userDetails.firstName,
         lastName : userDetails.lastName,
         mobileNumber : userDetails.mobileNumber
+        // role
     });
     if(!newUser){
         throw{reason : 'Something went wrong, cannot create user', statusCode : 500};
